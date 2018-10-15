@@ -11,12 +11,40 @@ import UIKit
 class SetupViewController: UIViewController {
     
     
+    @IBOutlet weak var difficulty: UISegmentedControl!
+    @IBOutlet weak var questiontype: UISegmentedControl!
     @IBOutlet weak var startGameOutlet: UIButton!
     var token: String? = nil
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let destVC = segue.destination as! QuestionViewController
         destVC.token = self.token
+        
+        switch(difficulty.selectedSegmentIndex){
+            case 0:
+                destVC.difficulty = nil
+            case 1:
+                destVC.difficulty = "easy"
+            case 2:
+                destVC.difficulty = "medium"
+            case 3:
+                destVC.difficulty = "hard"
+            default:
+                destVC.difficulty = nil
+        }
+        
+        
+        switch(questiontype.selectedSegmentIndex){
+        case 0:
+            destVC.type = nil
+        case 1:
+            destVC.type = "boolean"
+        case 2:
+            destVC.type = "multiple"
+        default:
+            destVC.type = nil
+        }
+        
     }
     
     override func viewDidLoad() {
@@ -47,6 +75,21 @@ class SetupViewController: UIViewController {
                 
             } catch let jsonError {
                 print(jsonError)
+                let alert = UIAlertController(title: "Alert", message: "TriviaDB could not be reached. Pleas try again later", preferredStyle: UIAlertController.Style.alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+                    switch action.style{
+                    case .default:
+                        print("default")
+                        
+                    case .cancel:
+                        print("cancel")
+                        
+                    case .destructive:
+                        print("destructive")
+                        
+                        
+                    }}))
+                self.present(alert, animated: true, completion: nil)
             }
             
             
