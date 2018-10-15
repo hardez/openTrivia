@@ -13,6 +13,7 @@ class QuestionViewController: UIViewController {
     @IBOutlet weak var categoryLabel: UITextField!
     @IBOutlet weak var questionText: UITextView!
     @IBOutlet weak var difficultyLabel: UILabel!
+    @IBOutlet weak var scoreLabel: UILabel!
     
     @IBOutlet weak var button1: UIButton!
     @IBOutlet weak var button2: UIButton!
@@ -24,13 +25,21 @@ class QuestionViewController: UIViewController {
     var token: String?
     var difficulty: String?
     var type: String?
+    var points: Int = 0 {
+        didSet{
+            self.scoreLabel.text = "Score: \(self.points)"
+            self.scoreLabel.setNeedsDisplay()
+        }
+    }
     
     @IBAction func answerButtonTapped(_ sender: UIButton) {
         let answerTapped = sender.titleLabel?.text
         if answerTapped == theAnswer {
             animateButton(button: sender, withColor: .green)
+            self.points += 10
         } else {
             animateButton(button: sender, withColor: .red)
+            self.points -= 10
             for button in answerButtons{
                 if button.titleLabel?.text == theAnswer{
                     animateButton(button: button, withColor: .green)
