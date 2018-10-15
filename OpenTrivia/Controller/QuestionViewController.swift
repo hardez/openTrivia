@@ -12,6 +12,7 @@ class QuestionViewController: UIViewController {
 
     @IBOutlet weak var categoryLabel: UITextField!
     @IBOutlet weak var questionText: UITextView!
+    @IBOutlet weak var difficultyLabel: UILabel!
     
     @IBOutlet weak var button1: UIButton!
     @IBOutlet weak var button2: UIButton!
@@ -93,6 +94,7 @@ class QuestionViewController: UIViewController {
                         DispatchQueue.main.async {
                             self.categoryLabel.text = question.category
                             self.questionText.text = question.question.htmlDecoded()
+                            self.difficultyLabel.text = question.difficulty.rawValue.capitalized
                             
                             var answers = question.getAnswers().shuffled()
                             for button in self.answerButtons{

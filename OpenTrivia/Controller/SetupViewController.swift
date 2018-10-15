@@ -50,51 +50,52 @@ class SetupViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let urlString = "https://opentdb.com/api_token.php?command=request"
-        guard let url = URL(string: urlString) else { return }
-        
-        URLSession.shared.dataTask(with: url) { (data, response, error) in
-            if error != nil {
-                print(error!.localizedDescription)
-            }
+        if(self.token == nil || self.token == ""){
+            let urlString = "https://opentdb.com/api_token.php?command=request"
+            guard let url = URL(string: urlString) else { return }
             
-            guard let data = data else { return }
-            //Implement JSON decoding and parsing
-            do {
-                //Decode retrived data with JSONDecoder and assing type of Article object
-                let resp = try JSONDecoder().decode(TokenResponse.self, from: data)
-                
-                if resp.response_code == 0{
-                    self.token = resp.token
+            URLSession.shared.dataTask(with: url) { (data, response, error) in
+                if error != nil {
+                    print(error!.localizedDescription)
                 }
                 
-                //Get back to the main queue
-                DispatchQueue.main.async {
-                    self.startGameOutlet.isHidden = false
+                guard let data = data else { return }
+                //Implement JSON decoding and parsing
+                do {
+                    //Decode retrived data with JSONDecoder and assing type of Article object
+                    let resp = try JSONDecoder().decode(TokenResponse.self, from: data)
+                    
+                    if resp.response_code == 0{
+                        self.token = resp.token
+                    }
+                    
+                    //Get back to the main queue
+                    DispatchQueue.main.async {
+                        self.startGameOutlet.isHidden = false
+                    }
+                    
+                } catch let jsonError {
+                    print(jsonError)
+                    let alert = UIAlertController(title: "Alert", message: "TriviaDB could not be reached. Pleas try again later", preferredStyle: UIAlertController.Style.alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+                        switch action.style{
+                        case .default:
+                            print("default")
+                            
+                        case .cancel:
+                            print("cancel")
+                            
+                        case .destructive:
+                            print("destructive")
+                            
+                            
+                        }}))
+                    self.present(alert, animated: true, completion: nil)
                 }
                 
-            } catch let jsonError {
-                print(jsonError)
-                let alert = UIAlertController(title: "Alert", message: "TriviaDB could not be reached. Pleas try again later", preferredStyle: UIAlertController.Style.alert)
-                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
-                    switch action.style{
-                    case .default:
-                        print("default")
-                        
-                    case .cancel:
-                        print("cancel")
-                        
-                    case .destructive:
-                        print("destructive")
-                        
-                        
-                    }}))
-                self.present(alert, animated: true, completion: nil)
-            }
-            
-            
-            }.resume()
-        
+                
+                }.resume()
+        }
     }
 
 }
