@@ -21,6 +21,8 @@ class QuestionViewController: UIViewController {
     lazy var answerButtons: [UIButton] = [button1, button2, button3, button4]
     var theAnswer: String?
     var token: String?
+    var difficulty: String?
+    var type: String?
     
     @IBAction func answerButtonTapped(_ sender: UIButton) {
         let answerTapped = sender.titleLabel?.text
@@ -58,9 +60,18 @@ class QuestionViewController: UIViewController {
 
     func setupQuestionView(){
         guard let token = token else { return }
-        let urlString = "https://opentdb.com/api.php?amount=1&token=\(token)"
+        var urlString = "https://opentdb.com/api.php?amount=1"
         
-        print(urlString)
+        if let difficulty = self.difficulty{
+            urlString += "&difficulty=\(difficulty)"
+        }
+        
+        if let type = self.type{
+            urlString += "&type=\(type)"
+        }
+        
+        urlString += "&token=\(token)"
+        
         guard let url = URL(string: urlString) else { return }
         
         
@@ -78,10 +89,8 @@ class QuestionViewController: UIViewController {
                     let questions = resp.results
                     
                     for question in questions{
-                        print(question.question)
                         self.theAnswer = question.correct_answer.htmlDecoded()
                         DispatchQueue.main.async {
-                            //print(articlesData)
                             self.categoryLabel.text = question.category
                             self.questionText.text = question.question.htmlDecoded()
                             
@@ -105,7 +114,7 @@ class QuestionViewController: UIViewController {
                 
             } catch let jsonError {
                 print(jsonError)
-                let alert = UIAlertController(title: "Alert", message: jsonError as? String, preferredStyle: UIAlertController.Style.alert)
+                let alert = UIAlertController(title: "Alert", message: "TriviaDB could not be reached. Pleas try again later", preferredStyle: UIAlertController.Style.alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
                     switch action.style{
                     case .default:
