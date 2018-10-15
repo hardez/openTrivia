@@ -23,6 +23,13 @@ struct Question: Decodable{
     let question: String
     let correct_answer: String
     let incorrect_answers: [String]
+    
+    func getAnswers() -> [String]{
+        var answers:[String] = self.incorrect_answers
+        answers.append(correct_answer)
+        
+        return answers
+    }
 }
 
 struct Response: Decodable{
