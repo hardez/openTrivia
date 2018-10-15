@@ -25,7 +25,7 @@ struct Question: Decodable{
     let incorrect_answers: [String]
 }
 
-struct response: Decodable{
+struct Response: Decodable{
     let response_code: Int
     let results: [Question]
 }
