@@ -17,34 +17,35 @@ class SetupViewController: UIViewController {
     var token: String? = nil
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let destVC = segue.destination as! QuestionViewController
-        destVC.token = self.token
-        
-        switch(difficulty.selectedSegmentIndex){
+        if segue.identifier == "gameSegue" {
+            let destVC = segue.destination as! QuestionViewController
+            destVC.token = self.token
+            
+            switch(difficulty.selectedSegmentIndex){
+                case 0:
+                    destVC.difficulty = nil
+                case 1:
+                    destVC.difficulty = "easy"
+                case 2:
+                    destVC.difficulty = "medium"
+                case 3:
+                    destVC.difficulty = "hard"
+                default:
+                    destVC.difficulty = nil
+            }
+            
+            
+            switch(questiontype.selectedSegmentIndex){
             case 0:
-                destVC.difficulty = nil
+                destVC.type = nil
             case 1:
-                destVC.difficulty = "easy"
+                destVC.type = "boolean"
             case 2:
-                destVC.difficulty = "medium"
-            case 3:
-                destVC.difficulty = "hard"
+                destVC.type = "multiple"
             default:
-                destVC.difficulty = nil
+                destVC.type = nil
+            }
         }
-        
-        
-        switch(questiontype.selectedSegmentIndex){
-        case 0:
-            destVC.type = nil
-        case 1:
-            destVC.type = "boolean"
-        case 2:
-            destVC.type = "multiple"
-        default:
-            destVC.type = nil
-        }
-        
     }
     
     override func viewDidLoad() {

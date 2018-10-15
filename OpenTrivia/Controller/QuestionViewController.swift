@@ -21,10 +21,11 @@ class QuestionViewController: UIViewController {
     @IBOutlet weak var button4: UIButton!
     
     lazy var answerButtons: [UIButton] = [button1, button2, button3, button4]
-    var theAnswer: String?
+//    var theAnswer: String?
     var token: String?
     var difficulty: String?
     var type: String?
+    var question: Question?
     var points: Int = 0 {
         didSet{
             self.scoreLabel.text = "Score: \(self.points)"
@@ -34,14 +35,15 @@ class QuestionViewController: UIViewController {
     
     @IBAction func answerButtonTapped(_ sender: UIButton) {
         let answerTapped = sender.titleLabel?.text
-        if answerTapped == theAnswer {
+        guard let question = self.question else {return}
+        if answerTapped == self.question?.correct_answer.htmlDecoded() {
             animateButton(button: sender, withColor: .green)
-            self.points += 10
+            calcPoints(action: .add, for: question)
         } else {
             animateButton(button: sender, withColor: .red)
-            self.points -= 10
+            calcPoints(action: .sub, for: question)
             for button in answerButtons{
-                if button.titleLabel?.text == theAnswer{
+                if button.titleLabel?.text == self.question?.correct_answer.htmlDecoded(){
                     animateButton(button: button, withColor: .green)
                 }
             }
@@ -63,9 +65,34 @@ class QuestionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        self.points = 0
         setupQuestionView()
-        
-        
+    }
+    
+    enum Action{
+        case add, sub
+    }
+    func calcPoints(action: Action , for question: Question){
+        switch(question.difficulty){
+        case .easy:
+            if action == .add{
+                self.points += 10
+            } else {
+                self.points -= 10
+            }
+        case .medium:
+            if action == .add{
+                self.points += 20
+            } else {
+                self.points -= 20
+            }
+        case .hard:
+            if action == .add{
+                self.points += 30
+            } else {
+                self.points -= 30
+            }
+        }
     }
 
     func setupQuestionView(){
@@ -99,11 +126,12 @@ class QuestionViewController: UIViewController {
                     let questions = resp.results
                     
                     for question in questions{
-                        self.theAnswer = question.correct_answer.htmlDecoded()
+                        //self.theAnswer = self.question?.correct_answer.htmlDecoded()
+                        self.question = question
                         DispatchQueue.main.async {
                             self.categoryLabel.text = question.category
                             self.questionText.text = question.question.htmlDecoded()
-                            self.difficultyLabel.text = question.difficulty.rawValue.capitalized
+                            self.difficultyLabel.text = "Difficulty: \(question.difficulty.rawValue.capitalized)"
                             
                             var answers = question.getAnswers().shuffled()
                             for button in self.answerButtons{
