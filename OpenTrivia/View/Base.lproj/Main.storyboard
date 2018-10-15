@@ -44,6 +44,9 @@
                         <viewLayoutGuide key="safeArea" id="CbV-U1-W4F"/>
                     </view>
                     <navigationItem key="navigationItem" id="D9R-jn-h2u"/>
+                    <connections>
+                        <outlet property="startGameOutlet" destination="Iqp-0N-R8M" id="1TA-YT-PJf"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jbn-qm-CvE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
