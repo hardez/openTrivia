@@ -22,9 +22,7 @@ class QuestionViewController: UIViewController {
     var theAnswer: String?
     
     @IBAction func answerButtonTapped(_ sender: UIButton) {
-        print("Button tapped")
         let answerTapped = sender.titleLabel?.text
-        print(answerTapped)
         if answerTapped == theAnswer {
             animateButton(button: sender, withColor: .green)
         } else {
@@ -75,25 +73,20 @@ class QuestionViewController: UIViewController {
                     
                     for question in questions{
                         print(question.question)
-                        self.theAnswer = question.correct_answer
+                        self.theAnswer = question.correct_answer.htmlDecoded()
                         DispatchQueue.main.async {
                             //print(articlesData)
-                            print("set Labels")
                             self.categoryLabel.text = question.category
-                            self.questionText.text = question.question
+                            self.questionText.text = question.question.htmlDecoded()
                             
                             var answers = question.getAnswers().shuffled()
-                            print(answers.count)
-                            print(self.answerButtons.count)
                             for button in self.answerButtons{
-                                print(button.tag)
                                 button.backgroundColor = .brown
                                 if question.type == .boolean && (button.tag == 1 || button.tag == 4){
-                                    print("hide button")
                                     button.isHidden = true
                                 } else {
-                                    print("set Button Label to \(String(describing: answers.last))")
-                                    button.setTitle(answers.popLast(), for: .normal)
+                                    button.isHidden = false
+                                    button.setTitle(answers.popLast()?.htmlDecoded(), for: .normal)
                                 }
                             }
                         
