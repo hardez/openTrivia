@@ -57,8 +57,12 @@ class QuestionViewController: UIViewController {
     }
 
     func setupQuestionView(){
-        let urlString = "https://opentdb.com/api.php?amount=1"
+        guard let token = token else { return }
+        let urlString = "https://opentdb.com/api.php?amount=1&token=\(token)"
+        
+        print(urlString)
         guard let url = URL(string: urlString) else { return }
+        
         
         URLSession.shared.dataTask(with: url) { (data, response, error) in
             if error != nil {

@@ -10,7 +10,14 @@ import UIKit
 
 class SetupViewController: UIViewController {
     
-    var token: String?
+    
+    @IBOutlet weak var startGameOutlet: UIButton!
+    var token: String? = nil
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let destVC = segue.destination as! QuestionViewController
+        destVC.token = self.token
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,13 +34,15 @@ class SetupViewController: UIViewController {
             //Implement JSON decoding and parsing
             do {
                 //Decode retrived data with JSONDecoder and assing type of Article object
-                self.token = String(data: data, encoding: .utf8)
+                let resp = try JSONDecoder().decode(TokenResponse.self, from: data)
+                
+                if resp.response_code == 0{
+                    self.token = resp.token
+                }
                 
                 //Get back to the main queue
                 DispatchQueue.main.async {
-                    //print(articlesData)
-                    self.articles = articlesData
-                    self.collectionView?.reloadData()
+                    self.startGameOutlet.isHidden = false
                 }
                 
             } catch let jsonError {

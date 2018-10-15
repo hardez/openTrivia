@@ -305,7 +305,7 @@ extension String {
             "&clubs;"    : "\u{2663}",
             "&hearts;"   : "\u{2665}",
             "&diams;"    : "\u{2666}",
-            "&039;"      : "'",
+            "&#039;"      : "'",
             ]
         
         for (name,value) in entities {
