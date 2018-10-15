@@ -30,6 +30,9 @@
                                         <state key="normal" title="Button">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
+                                        <connections>
+                                            <action selector="answerButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="jrQ-KX-x50"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hq0-8F-KJn">
                                         <rect key="frame" x="0.0" y="55" width="359" height="45"/>
@@ -41,6 +44,9 @@
                                         <state key="normal" title="Button">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
+                                        <connections>
+                                            <action selector="answerButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Hax-F0-6gF"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aP4-Lq-S7K">
                                         <rect key="frame" x="0.0" y="110" width="359" height="45"/>
@@ -52,8 +58,11 @@
                                         <state key="normal" title="Button">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
+                                        <connections>
+                                            <action selector="answerButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="4yc-Dy-xch"/>
+                                        </connections>
                                     </button>
-                                    <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J4W-9u-ftk">
+                                    <button opaque="NO" tag="4" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J4W-9u-ftk">
                                         <rect key="frame" x="0.0" y="165" width="359" height="45"/>
                                         <color key="backgroundColor" red="0.57798332253886009" green="0.45782421603298668" blue="0.2023719257642172" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
@@ -63,6 +72,9 @@
                                         <state key="normal" title="Button">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
+                                        <connections>
+                                            <action selector="answerButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="atY-MS-1gC"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <constraints>
@@ -103,14 +115,17 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="button1" destination="otA-OU-Duu" id="SHR-vd-WKD"/>
+                        <outlet property="button2" destination="hq0-8F-KJn" id="zGi-KK-DIW"/>
+                        <outlet property="button3" destination="aP4-Lq-S7K" id="CSH-5X-Ujh"/>
+                        <outlet property="button4" destination="J4W-9u-ftk" id="hsF-Av-uWZ"/>
                         <outlet property="categoryLabel" destination="Sas-W4-BWA" id="rYn-ya-GUv"/>
                         <outlet property="questionText" destination="KKd-Wn-fUV" id="gEl-0t-NrQ"/>
-                        <outletCollection property="answerButtons" destination="otA-OU-Duu" collectionClass="NSMutableArray" id="QxV-iP-Kxl"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-134" y="125"/>
+            <point key="canvasLocation" x="-1758" y="-231"/>
         </scene>
     </scenes>
 </document>
