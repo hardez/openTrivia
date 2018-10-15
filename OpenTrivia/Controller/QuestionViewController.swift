@@ -20,6 +20,7 @@ class QuestionViewController: UIViewController {
     
     lazy var answerButtons: [UIButton] = [button1, button2, button3, button4]
     var theAnswer: String?
+    var token: String?
     
     @IBAction func answerButtonTapped(_ sender: UIButton) {
         let answerTapped = sender.titleLabel?.text
@@ -51,6 +52,7 @@ class QuestionViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         setupQuestionView()
+        
         
     }
 
