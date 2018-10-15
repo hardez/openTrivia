@@ -60,7 +60,6 @@
 				823F0A8C217489C300F8C9A6 /* View */,
 				823F0A8B217489A700F8C9A6 /* Model */,
 				823F0A772173510400F8C9A6 /* AppDelegate.swift */,
-				823F0A792173510400F8C9A6 /* QuestionViewController.swift */,
 				823F0A7E2173510600F8C9A6 /* Assets.xcassets */,
 				823F0A832173510600F8C9A6 /* Info.plist */,
 			);
@@ -87,6 +86,7 @@
 		823F0A8D217489DE00F8C9A6 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				823F0A792173510400F8C9A6 /* QuestionViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
