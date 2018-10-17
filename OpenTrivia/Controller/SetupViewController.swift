@@ -15,11 +15,13 @@ class SetupViewController: UIViewController {
     @IBOutlet weak var questiontype: UISegmentedControl!
     @IBOutlet weak var startGameOutlet: UIButton!
     var token: String? = nil
+    var categories = [TriviaCategorie]()
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "gameSegue" {
             let destVC = segue.destination as! QuestionViewController
             destVC.token = self.token
+            destVC.categories = self.categories
             
             switch(difficulty.selectedSegmentIndex){
                 case 0:
@@ -51,6 +53,38 @@ class SetupViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if(self.categories.count == 0){
+            let urlString = "https://opentdb.com/api_category.php"
+            guard let url = URL(string: urlString) else { return }
+            
+            URLSession.shared.dataTask(with: url) { (data, response, error) in
+                if error != nil {
+                    print(error!.localizedDescription)
+                }
+                
+                guard let data = data else { return }
+                //Implement JSON decoding and parsing
+                do {
+                    //Decode retrived data with JSONDecoder and assing type of Article object
+                    let resp = try JSONDecoder().decode(TriviaCategories.self, from: data)
+                    
+                    for categorie in resp.trivia_categories{
+                        if !(categorie.name.starts(with: "Entertainment:")){
+                            self.categories.append(categorie)
+                        }
+                    }
+                    //Get back to the main queue
+                    DispatchQueue.main.async {
+                        self.startGameOutlet.isHidden = false
+                    }
+                    } catch let jsonError {
+                        print(jsonError)
+                }
+                
+                
+                }.resume()
+        }
+        
         if(self.token == nil || self.token == ""){
             let urlString = "https://opentdb.com/api_token.php?command=request"
             guard let url = URL(string: urlString) else { return }
@@ -70,6 +104,11 @@ class SetupViewController: UIViewController {
                         self.token = resp.token
                     }
                     
+                    // need to make sure that categories are available
+                    // very hacky, need to find a better way
+                    while(self.categories.count == 0){
+                        sleep(1)
+                    }
                     //Get back to the main queue
                     DispatchQueue.main.async {
                         self.startGameOutlet.isHidden = false

@@ -23,6 +23,7 @@ class QuestionViewController: UIViewController {
     lazy var answerButtons: [UIButton] = [button1, button2, button3, button4]
 //    var theAnswer: String?
     var token: String?
+    var categories = [TriviaCategorie]()
     var difficulty: String?
     var type: String?
     var question: Question?
@@ -105,6 +106,10 @@ class QuestionViewController: UIViewController {
         
         if let type = self.type{
             urlString += "&type=\(type)"
+        }
+        
+        if let categorie = self.categories.shuffled().first{
+            urlString += "&category=\(categorie.id)"
         }
         
         urlString += "&token=\(token)"
