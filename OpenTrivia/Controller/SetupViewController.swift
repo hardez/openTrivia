@@ -24,22 +24,8 @@ class SetupViewController: UIViewController {
             destVC.categories = self.categories
             
             let difficultyTitle = (difficulty.titleForSegment(at: difficulty.selectedSegmentIndex) ?? "").lowercased()
-            destVC.difficulty = Difficulty(rawValue: difficultyTitle) ?? Difficulty.easy
+            destVC.difficulty = Difficulty(rawValue: difficultyTitle) ?? Difficulty.mixed
             
-            /*
-            switch(difficulty.selectedSegmentIndex){
-                case 0:
-                    destVC.difficulty = nil
-                case 1:
-                    destVC.difficulty = "easy"
-                case 2:
-                    destVC.difficulty = "medium"
-                case 3:
-                    destVC.difficulty = "hard"
-                default:
-                    destVC.difficulty = nil
-            }
- */
             
             
             switch(questiontype.selectedSegmentIndex){
@@ -90,56 +76,66 @@ class SetupViewController: UIViewController {
                 }.resume()
         }
         
-        if(self.token == nil || self.token == ""){
-            let urlString = "https://opentdb.com/api_token.php?command=request"
-            guard let url = URL(string: urlString) else { return }
-            
-            URLSession.shared.dataTask(with: url) { (data, response, error) in
-                if error != nil {
-                    print(error!.localizedDescription)
-                }
+        
+        let tokenDate = UserDefaults.standard.object(forKey: "tokenTime") as? Date ?? Date(timeIntervalSince1970: 0)
+        let sixHourseInSeconds = Double(6*60*60)
+        
+        if Date().timeIntervalSince(tokenDate) < sixHourseInSeconds {
+                self.token = UserDefaults.standard.string(forKey: "token")
+        } else {
+            if(self.token == nil || self.token == ""){
+                let urlString = "https://opentdb.com/api_token.php?command=request"
+                guard let url = URL(string: urlString) else { return }
                 
-                guard let data = data else { return }
-                //Implement JSON decoding and parsing
-                do {
-                    //Decode retrived data with JSONDecoder and assing type of Article object
-                    let resp = try JSONDecoder().decode(TokenResponse.self, from: data)
-                    
-                    if resp.response_code == 0{
-                        self.token = resp.token
+                URLSession.shared.dataTask(with: url) { (data, response, error) in
+                    if error != nil {
+                        print(error!.localizedDescription)
                     }
                     
-                    // need to make sure that categories are available
-                    // very hacky, need to find a better way
-                    while(self.categories.count == 0){
-                        sleep(1)
-                    }
-                    //Get back to the main queue
-                    DispatchQueue.main.async {
-                        self.startGameOutlet.isHidden = false
+                    guard let data = data else { return }
+                    //Implement JSON decoding and parsing
+                    do {
+                        //Decode retrived data with JSONDecoder and assing type of Article object
+                        let resp = try JSONDecoder().decode(TokenResponse.self, from: data)
+                        
+                        if resp.response_code == 0{
+                            self.token = resp.token
+                            UserDefaults.standard.set(Date(), forKey:"tokenTime")
+                            UserDefaults.standard.set(resp.token, forKey:"token")
+                        }
+                        
+                        // need to make sure that categories are available
+                        // very hacky, need to find a better way
+                        while(self.categories.count == 0){
+                            sleep(1)
+                        }
+                        //Get back to the main queue
+                        DispatchQueue.main.async {
+                            self.startGameOutlet.isHidden = false
+                        }
+                        
+                    } catch let jsonError {
+                        print(jsonError)
+                        let alert = UIAlertController(title: "Alert", message: "TriviaDB could not be reached. Pleas try again later", preferredStyle: UIAlertController.Style.alert)
+                        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+                            switch action.style{
+                            case .default:
+                                print("default")
+                                
+                            case .cancel:
+                                print("cancel")
+                                
+                            case .destructive:
+                                print("destructive")
+                                
+                                
+                            }}))
+                        self.present(alert, animated: true, completion: nil)
                     }
                     
-                } catch let jsonError {
-                    print(jsonError)
-                    let alert = UIAlertController(title: "Alert", message: "TriviaDB could not be reached. Pleas try again later", preferredStyle: UIAlertController.Style.alert)
-                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
-                        switch action.style{
-                        case .default:
-                            print("default")
-                            
-                        case .cancel:
-                            print("cancel")
-                            
-                        case .destructive:
-                            print("destructive")
-                            
-                            
-                        }}))
-                    self.present(alert, animated: true, completion: nil)
-                }
-                
-                
-                }.resume()
+                    
+                    }.resume()
+            }
         }
     }
 
