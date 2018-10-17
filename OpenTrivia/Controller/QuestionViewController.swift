@@ -24,7 +24,7 @@ class QuestionViewController: UIViewController {
 //    var theAnswer: String?
     var token: String?
     var categories = [TriviaCategorie]()
-    var difficulty: String?
+    var difficulty: Difficulty?
     var type: String?
     var question: Question?
     var points: Int = 0 {
@@ -79,20 +79,23 @@ class QuestionViewController: UIViewController {
             if action == .add{
                 self.points += 10
             } else {
-                self.points -= 10
+                self.points -= 5
             }
         case .medium:
             if action == .add{
                 self.points += 20
             } else {
-                self.points -= 20
+                self.points -= 10
             }
         case .hard:
             if action == .add{
                 self.points += 30
             } else {
-                self.points -= 30
+                self.points -= 15
             }
+        case .mixed:
+            // this could only happen due to hacking so the player deserves the points
+            self.points += 10000
         }
     }
 
@@ -101,7 +104,17 @@ class QuestionViewController: UIViewController {
         var urlString = "https://opentdb.com/api.php?amount=1"
         
         if let difficulty = self.difficulty{
-            urlString += "&difficulty=\(difficulty)"
+            if difficulty == .mixed{
+                if self.points < 50{
+                    urlString += "&difficulty=\(Difficulty.easy)"
+                } else if self.points >= 50 && self.points < 150 {
+                    urlString += "&difficulty=\(Difficulty.medium)"
+                } else {
+                    urlString += "&difficulty=\(Difficulty.hard)"
+                }
+            } else {
+                urlString += "&difficulty=\(difficulty.rawValue)"
+            }
         }
         
         if let type = self.type{

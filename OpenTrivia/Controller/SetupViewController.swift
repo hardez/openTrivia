@@ -23,6 +23,10 @@ class SetupViewController: UIViewController {
             destVC.token = self.token
             destVC.categories = self.categories
             
+            let difficultyTitle = (difficulty.titleForSegment(at: difficulty.selectedSegmentIndex) ?? "").lowercased()
+            destVC.difficulty = Difficulty(rawValue: difficultyTitle) ?? Difficulty.easy
+            
+            /*
             switch(difficulty.selectedSegmentIndex){
                 case 0:
                     destVC.difficulty = nil
@@ -35,6 +39,7 @@ class SetupViewController: UIViewController {
                 default:
                     destVC.difficulty = nil
             }
+ */
             
             
             switch(questiontype.selectedSegmentIndex){
