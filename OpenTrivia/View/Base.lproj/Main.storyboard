@@ -255,6 +255,7 @@
                         <viewLayoutGuide key="safeArea" id="j4x-Ta-baE"/>
                     </view>
                     <connections>
+                        <outlet property="newGameButton" destination="zFr-qB-0ZY" id="Wdq-YJ-snn"/>
                         <outlet property="scoreLabel" destination="Hsg-KU-ohp" id="Ugi-nM-p0w"/>
                     </connections>
                 </viewController>
@@ -264,7 +265,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="pKl-xN-83F"/>
         <segue reference="4YL-xO-0xq"/>
     </inferredMetricsTieBreakers>
 </document>

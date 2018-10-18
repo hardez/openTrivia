@@ -11,6 +11,7 @@ import UIKit
 class FinishViewController: UIViewController {
 
     @IBOutlet weak var scoreLabel: UILabel!
+    @IBOutlet weak var newGameButton: UIButton!
     
     var score = 0
     var savedCategories = [TriviaCategorie]()
@@ -19,6 +20,7 @@ class FinishViewController: UIViewController {
         self.scoreLabel.text = "Final Score: \(score)"
         // Do any additional setup after loading the view.
         if savedCategories.count <= 1{
+            newGameButton.isHidden = true
             let urlString = "https://opentdb.com/api_category.php"
             guard let url = URL(string: urlString) else { return }
             
@@ -39,6 +41,12 @@ class FinishViewController: UIViewController {
                         }
                     }
                     //Get back to the main queue
+                    
+                    DispatchQueue.main.async {
+                        self.newGameButton.isHidden = false
+                    }
+                    
+                    
                 } catch let jsonError {
                     print(jsonError)
                 }
