@@ -89,6 +89,7 @@ class QuestionViewController: UIViewController {
         if segue.identifier == Config.Triviaseques.finishSegue.rawValue {
             let destVC = segue.destination as! FinishViewController
             destVC.score = self.correctAnswers
+            destVC.savedCategories = self.categories
         }
     }
     
@@ -104,7 +105,7 @@ class QuestionViewController: UIViewController {
         var urlString = "https://opentdb.com/api.php?amount=1"
         urlString += "&difficulty=\(self.currentDifficulty.randomElement() ?? Difficulty.easy)"
         urlString += "&type=\(self.questionType.randomElement() ?? QuestionType.multiple)"
-        urlString += "&category=\(self.categories.randomElement()?.id ?? 9)" // 9 is Category General Knowledge
+        urlString += "&category=\((self.categories.randomElement())?.id ?? 9)" // 9 is Category General Knowledge
         if let token = self.token{
             urlString += "&token=\(token)"
         }
