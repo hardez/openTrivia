@@ -15,6 +15,8 @@
 		823F0A8A2173515F00F8C9A6 /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823F0A892173515F00F8C9A6 /* Question.swift */; };
 		823F0A8F2174A82400F8C9A6 /* SetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823F0A8E2174A82400F8C9A6 /* SetupViewController.swift */; };
 		8246F9052174AADD00A815E5 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8246F9042174AADD00A815E5 /* Token.swift */; };
+		82644F362178B207006041A4 /* configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82644F352178B207006041A4 /* configuration.swift */; };
+		82644F382178B310006041A4 /* FinishViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82644F372178B310006041A4 /* FinishViewController.swift */; };
 		827A9E272177A103005C452B /* catergory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827A9E262177A103005C452B /* catergory.swift */; };
 /* End PBXBuildFile section */
 
@@ -29,6 +31,8 @@
 		823F0A892173515F00F8C9A6 /* Question.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Question.swift; sourceTree = "<group>"; };
 		823F0A8E2174A82400F8C9A6 /* SetupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupViewController.swift; sourceTree = "<group>"; };
 		8246F9042174AADD00A815E5 /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
+		82644F352178B207006041A4 /* configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = configuration.swift; sourceTree = "<group>"; };
+		82644F372178B310006041A4 /* FinishViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinishViewController.swift; sourceTree = "<group>"; };
 		827A9E262177A103005C452B /* catergory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = catergory.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -78,6 +82,7 @@
 				823F0A892173515F00F8C9A6 /* Question.swift */,
 				8246F9042174AADD00A815E5 /* Token.swift */,
 				827A9E262177A103005C452B /* catergory.swift */,
+				82644F352178B207006041A4 /* configuration.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -96,6 +101,7 @@
 			children = (
 				823F0A8E2174A82400F8C9A6 /* SetupViewController.swift */,
 				823F0A792173510400F8C9A6 /* QuestionViewController.swift */,
+				82644F372178B310006041A4 /* FinishViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -171,10 +177,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82644F362178B207006041A4 /* configuration.swift in Sources */,
 				827A9E272177A103005C452B /* catergory.swift in Sources */,
 				823F0A8F2174A82400F8C9A6 /* SetupViewController.swift in Sources */,
 				8246F9052174AADD00A815E5 /* Token.swift in Sources */,
 				823F0A8A2173515F00F8C9A6 /* Question.swift in Sources */,
+				82644F382178B310006041A4 /* FinishViewController.swift in Sources */,
 				823F0A7A2173510400F8C9A6 /* QuestionViewController.swift in Sources */,
 				823F0A782173510400F8C9A6 /* AppDelegate.swift in Sources */,
 			);

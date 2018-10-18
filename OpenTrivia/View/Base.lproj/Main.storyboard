@@ -156,13 +156,19 @@
                                 <rect key="frame" x="8" y="68" width="359" height="50"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pCY-Et-2av">
-                                        <rect key="frame" x="0.0" y="0.0" width="175.5" height="50"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="114.5" height="50"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1cF-95-ICn">
+                                        <rect key="frame" x="122.5" y="0.0" width="114" height="50"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle0"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mDH-m0-efA">
-                                        <rect key="frame" x="183.5" y="0.0" width="175.5" height="50"/>
+                                        <rect key="frame" x="244.5" y="0.0" width="114.5" height="50"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -172,7 +178,6 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="zPi-xf-6C8" firstAttribute="firstBaseline" secondItem="Sas-W4-BWA" secondAttribute="baseline" constant="24" symbolType="layoutAnchor" id="1nm-94-gIZ"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="AvM-Hq-ni6" secondAttribute="trailing" constant="8" id="6Jn-Uk-CnI"/>
                             <constraint firstItem="KKd-Wn-fUV" firstAttribute="firstBaseline" secondItem="zPi-xf-6C8" secondAttribute="baseline" constant="24.5" symbolType="layoutAnchor" id="EUh-AB-cIW"/>
                             <constraint firstItem="AvM-Hq-ni6" firstAttribute="top" secondItem="KKd-Wn-fUV" secondAttribute="bottom" constant="20" id="FAt-yu-xTi"/>
@@ -184,6 +189,7 @@
                             <constraint firstItem="KKd-Wn-fUV" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="8" id="q6Q-ZS-4FM"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Sas-W4-BWA" secondAttribute="trailing" constant="8" id="rst-35-Yr8"/>
                             <constraint firstItem="Sas-W4-BWA" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="8" id="wwn-sT-h86"/>
+                            <constraint firstItem="zPi-xf-6C8" firstAttribute="firstBaseline" secondItem="Sas-W4-BWA" secondAttribute="baseline" constant="24" symbolType="layoutAnchor" id="xWx-b5-lqB"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="AvM-Hq-ni6" secondAttribute="bottom" constant="8" id="y4B-61-3im"/>
                             <constraint firstItem="zPi-xf-6C8" firstAttribute="leading" secondItem="Sas-W4-BWA" secondAttribute="leading" id="yLN-2N-0BK"/>
                         </constraints>
@@ -198,11 +204,67 @@
                         <outlet property="difficultyLabel" destination="pCY-Et-2av" id="I0H-J8-3dp"/>
                         <outlet property="questionText" destination="KKd-Wn-fUV" id="gEl-0t-NrQ"/>
                         <outlet property="scoreLabel" destination="mDH-m0-efA" id="4Fc-dj-6A8"/>
+                        <outlet property="timeLabel" destination="1cF-95-ICn" id="ZUR-bM-l6Y"/>
+                        <segue destination="qDc-u0-TE1" kind="show" identifier="finishSegue" id="pKl-xN-83F"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-842" y="-215"/>
+            <point key="canvasLocation" x="-842.39999999999998" y="-215.44227886056973"/>
+        </scene>
+        <!--Finish View Controller-->
+        <scene sceneID="pR3-Vk-U0N">
+            <objects>
+                <viewController id="qDc-u0-TE1" customClass="FinishViewController" customModule="OpenTrivia" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="294-MD-1cH">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Score" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hsg-KU-ohp">
+                                <rect key="frame" x="8" y="308.5" width="359" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="0Y4-Ex-SXE"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle0"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zFr-qB-0ZY">
+                                <rect key="frame" x="8" y="607" width="359" height="40"/>
+                                <color key="backgroundColor" red="0.2116047144" green="0.47851395610000003" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="abL-Gd-Z3m"/>
+                                </constraints>
+                                <state key="normal" title="Start New Game">
+                                    <color key="titleColor" red="0.95776920340000005" green="1" blue="0.97511384109999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <segue destination="BYZ-38-t0r" kind="show" identifier="newGame" id="4YL-xO-0xq"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="j4x-Ta-baE" firstAttribute="trailing" secondItem="zFr-qB-0ZY" secondAttribute="trailing" constant="8" id="0PK-tl-HD8"/>
+                            <constraint firstItem="Hsg-KU-ohp" firstAttribute="leading" secondItem="j4x-Ta-baE" secondAttribute="leading" constant="8" id="HBw-UE-YtJ"/>
+                            <constraint firstItem="j4x-Ta-baE" firstAttribute="trailing" secondItem="Hsg-KU-ohp" secondAttribute="trailing" constant="8" id="HL1-9e-1sj"/>
+                            <constraint firstItem="j4x-Ta-baE" firstAttribute="bottom" secondItem="zFr-qB-0ZY" secondAttribute="bottom" constant="20" id="nE8-ds-GWj"/>
+                            <constraint firstItem="zFr-qB-0ZY" firstAttribute="leading" secondItem="j4x-Ta-baE" secondAttribute="leading" constant="8" id="svF-LB-6sG"/>
+                            <constraint firstItem="Hsg-KU-ohp" firstAttribute="centerY" secondItem="294-MD-1cH" secondAttribute="centerY" id="zsR-6Q-6zJ"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="j4x-Ta-baE"/>
+                    </view>
+                    <connections>
+                        <outlet property="scoreLabel" destination="Hsg-KU-ohp" id="Ugi-nM-p0w"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="P6V-Zn-nmg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-66.400000000000006" y="-215.44227886056973"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="pKl-xN-83F"/>
+        <segue reference="4YL-xO-0xq"/>
+    </inferredMetricsTieBreakers>
 </document>

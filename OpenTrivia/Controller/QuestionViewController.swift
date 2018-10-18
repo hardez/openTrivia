@@ -14,6 +14,7 @@ class QuestionViewController: UIViewController {
     @IBOutlet weak var questionText: UITextView!
     @IBOutlet weak var difficultyLabel: UILabel!
     @IBOutlet weak var scoreLabel: UILabel!
+    @IBOutlet weak var timeLabel: UILabel!
     
     @IBOutlet weak var button1: UIButton!
     @IBOutlet weak var button2: UIButton!
@@ -27,14 +28,34 @@ class QuestionViewController: UIViewController {
     var questionType = [QuestionType.boolean, QuestionType.multiple]
     var categories = [TriviaCategorie]()
     var question: Question?
-    var timeLeft: Int = 120
+    var correctAnswers = 0 {
+        didSet{
+            self.scoreLabel.text = "Score: \(self.correctAnswers)"
+            self.scoreLabel.setNeedsDisplay()
+        }
+    }
+    //var timer = Timer()
+    var timer = Timer()
+    var timerIsRunning = false
+    var timeLeft: Float = 20 {
+        didSet{
+            self.timeLabel.text = "\(Int(self.timeLeft))s"
+            self.timeLabel.setNeedsDisplay()
+        }
+    }
     
     @IBAction func answerButtonTapped(_ sender: UIButton) {
+        for button in self.answerButtons{
+            button.isEnabled = false
+        }
         let answerTapped = sender.titleLabel?.text
         if answerTapped == self.question?.correct_answer.htmlDecoded() {
             animateButton(button: sender, withColor: .green)
+            self.correctAnswers += 1
+            self.timeLeft += 10
         } else {
             animateButton(button: sender, withColor: .red)
+            self.timeLeft -= 5
             for button in answerButtons{
                 if button.titleLabel?.text == self.question?.correct_answer.htmlDecoded(){
                     animateButton(button: button, withColor: .green)
@@ -54,25 +75,42 @@ class QuestionViewController: UIViewController {
         }
     }
     
+    @objc func fireTimer(){
+        if(timerIsRunning){
+            self.timeLeft -= 0.1
+            if self.timeLeft <= 0{
+                self.timer.invalidate()
+                performSegue(withIdentifier: Config.Triviaseques.finishSegue.rawValue, sender: nil)
+            }
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == Config.Triviaseques.finishSegue.rawValue {
+            let destVC = segue.destination as! FinishViewController
+            destVC.score = self.correctAnswers
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        self.timeLeft = 0
         setupQuestionView()
+        self.timer = Timer(timeInterval: 0.1, target: self, selector: #selector(fireTimer), userInfo: nil, repeats: true)
+        RunLoop.current.add(self.timer, forMode: .common)
     }
 
     func setupQuestionView(){
         var urlString = "https://opentdb.com/api.php?amount=1"
         urlString += "&difficulty=\(self.currentDifficulty.randomElement() ?? Difficulty.easy)"
         urlString += "&type=\(self.questionType.randomElement() ?? QuestionType.multiple)"
-        urlString += "&category=\((self.categories.randomElement())?.id ?? 9)" // 9 is Category General Knowledge
+        urlString += "&category=\(self.categories.randomElement()?.id ?? 9)" // 9 is Category General Knowledge
         if let token = self.token{
             urlString += "&token=\(token)"
         }
         guard let url = URL(string: urlString) else { return }
         
-        
+        self.timerIsRunning = false
         URLSession.shared.dataTask(with: url) { (data, response, error) in
             if error != nil {
                 print(error!.localizedDescription)
@@ -82,7 +120,6 @@ class QuestionViewController: UIViewController {
             do {
                 //Decode retrived data with JSONDecoder and assing type of Article object
                 let resp = try JSONDecoder().decode(Response.self, from: data)
-                
                 if resp.response_code == 0{
                     let questions = resp.results
                     for question in questions{
@@ -100,16 +137,21 @@ class QuestionViewController: UIViewController {
                                     button.isHidden = true
                                 } else {
                                     button.isHidden = false
+                                    button.isEnabled = true
                                     button.setTitle(answers.popLast()?.htmlDecoded(), for: .normal)
                                 }
                             }
                         
                         }
                     }
-                    
+                    self.timerIsRunning = true
+                } else {
+                    print(resp)
+                    self.categories.removeLast()
+                    self.setupQuestionView()
                 }
                 //Get back to the main queue
-                
+               
                 
             } catch let jsonError {
                 print(jsonError)

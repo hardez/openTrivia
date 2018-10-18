@@ -16,7 +16,7 @@ class SetupViewController: UIViewController {
     var categories = [TriviaCategorie]()
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "gameSegue" {
+        if segue.identifier == Config.Triviaseques.gameSegue.rawValue {
             let destVC = segue.destination as! QuestionViewController
             destVC.token = self.token
             destVC.categories = self.categories
