@@ -12,13 +12,13 @@ enum Difficulty:String, Decodable{
     case easy, medium, hard, mixed
 }
 
-enum Type:String, Decodable{
+enum QuestionType:String, Decodable{
     case multiple, boolean
 }
 
 struct Question: Decodable{
     let category: String
-    let type: Type
+    let type: QuestionType
     let difficulty: Difficulty
     let question: String
     let correct_answer: String

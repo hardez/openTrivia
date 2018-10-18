@@ -11,8 +11,6 @@ import UIKit
 class SetupViewController: UIViewController {
     
     
-    @IBOutlet weak var difficulty: UISegmentedControl!
-    @IBOutlet weak var questiontype: UISegmentedControl!
     @IBOutlet weak var startGameOutlet: UIButton!
     var token: String? = nil
     var categories = [TriviaCategorie]()
@@ -22,22 +20,6 @@ class SetupViewController: UIViewController {
             let destVC = segue.destination as! QuestionViewController
             destVC.token = self.token
             destVC.categories = self.categories
-            
-            let difficultyTitle = (difficulty.titleForSegment(at: difficulty.selectedSegmentIndex) ?? "").lowercased()
-            destVC.difficulty = Difficulty(rawValue: difficultyTitle) ?? Difficulty.mixed
-            
-            
-            
-            switch(questiontype.selectedSegmentIndex){
-            case 0:
-                destVC.type = nil
-            case 1:
-                destVC.type = "boolean"
-            case 2:
-                destVC.type = "multiple"
-            default:
-                destVC.type = nil
-            }
         }
     }
     

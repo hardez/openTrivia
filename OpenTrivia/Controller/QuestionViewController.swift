@@ -23,26 +23,18 @@ class QuestionViewController: UIViewController {
     lazy var answerButtons: [UIButton] = [button1, button2, button3, button4]
 //    var theAnswer: String?
     var token: String?
+    var currentDifficulty = [Difficulty.easy, Difficulty.medium, Difficulty.hard]
+    var questionType = [QuestionType.boolean, QuestionType.multiple]
     var categories = [TriviaCategorie]()
-    var difficulty: Difficulty?
-    var type: String?
     var question: Question?
-    var points: Int = 0 {
-        didSet{
-            self.scoreLabel.text = "Score: \(self.points)"
-            self.scoreLabel.setNeedsDisplay()
-        }
-    }
+    var timeLeft: Int = 120
     
     @IBAction func answerButtonTapped(_ sender: UIButton) {
         let answerTapped = sender.titleLabel?.text
-        guard let question = self.question else {return}
         if answerTapped == self.question?.correct_answer.htmlDecoded() {
             animateButton(button: sender, withColor: .green)
-            calcPoints(action: .add, for: question)
         } else {
             animateButton(button: sender, withColor: .red)
-            calcPoints(action: .sub, for: question)
             for button in answerButtons{
                 if button.titleLabel?.text == self.question?.correct_answer.htmlDecoded(){
                     animateButton(button: button, withColor: .green)
@@ -66,67 +58,18 @@ class QuestionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        self.points = 0
+        self.timeLeft = 0
         setupQuestionView()
-    }
-    
-    enum Action{
-        case add, sub
-    }
-    func calcPoints(action: Action , for question: Question){
-        switch(question.difficulty){
-        case .easy:
-            if action == .add{
-                self.points += 10
-            } else {
-                self.points -= 5
-            }
-        case .medium:
-            if action == .add{
-                self.points += 20
-            } else {
-                self.points -= 10
-            }
-        case .hard:
-            if action == .add{
-                self.points += 30
-            } else {
-                self.points -= 15
-            }
-        case .mixed:
-            // this could only happen due to hacking so the player deserves the points
-            self.points += 10000
-        }
     }
 
     func setupQuestionView(){
-        guard let token = token else { return }
         var urlString = "https://opentdb.com/api.php?amount=1"
-        
-        if let difficulty = self.difficulty{
-            if difficulty == .mixed{
-                if self.points < 50{
-                    urlString += "&difficulty=\(Difficulty.easy)"
-                } else if self.points >= 50 && self.points < 150 {
-                    urlString += "&difficulty=\(Difficulty.medium)"
-                } else {
-                    urlString += "&difficulty=\(Difficulty.hard)"
-                }
-            } else {
-                urlString += "&difficulty=\(difficulty.rawValue)"
-            }
+        urlString += "&difficulty=\(self.currentDifficulty.randomElement() ?? Difficulty.easy)"
+        urlString += "&type=\(self.questionType.randomElement() ?? QuestionType.multiple)"
+        urlString += "&category=\((self.categories.randomElement())?.id ?? 9)" // 9 is Category General Knowledge
+        if let token = self.token{
+            urlString += "&token=\(token)"
         }
-        
-        if let type = self.type{
-            urlString += "&type=\(type)"
-        }
-        
-        if let categorie = self.categories.shuffled().first{
-            urlString += "&category=\(categorie.id)"
-        }
-        
-        urlString += "&token=\(token)"
-        
         guard let url = URL(string: urlString) else { return }
         
         
@@ -142,9 +85,8 @@ class QuestionViewController: UIViewController {
                 
                 if resp.response_code == 0{
                     let questions = resp.results
-                    
                     for question in questions{
-                        //self.theAnswer = self.question?.correct_answer.htmlDecoded()
+                        // there is only one question asked for...
                         self.question = question
                         DispatchQueue.main.async {
                             self.categoryLabel.text = question.category
