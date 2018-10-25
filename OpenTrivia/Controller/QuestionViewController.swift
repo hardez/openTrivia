@@ -40,7 +40,7 @@ class QuestionViewController: UIViewController {
     //var timer = Timer()
     var timer = Timer()
     var timerIsRunning = false
-    var timeLeft: Float = 45 {
+    var timeLeft: Float = 60 {
         didSet{
             self.timeLabel.text = "\(Int(self.timeLeft))s"
             self.timeLabel.setNeedsDisplay()
@@ -89,14 +89,32 @@ class QuestionViewController: UIViewController {
             button.isEnabled = false
         }
         let answerTapped = sender.titleLabel?.text
+        guard let question = question else {return}
+        
+        var plusPoints: Float = 0.0
+        var minusPoints: Float = 0.0
+        
+        switch question.difficulty {
+        case .easy:
+            plusPoints = 10.0
+            minusPoints = -30.0
+        case .medium:
+            plusPoints = 20.0
+            minusPoints = -20.0
+        case .hard:
+            plusPoints = 30.0
+            minusPoints = -10
+        }
+        
+        
         if answerTapped == self.question?.correct_answer.htmlDecoded() {
             //animateButton(button: sender, withColor: .green)
-            animateAnswer(points: 10, fromButton: sender)
+            animateAnswer(points: plusPoints, fromButton: sender)
             //self.correctAnswers += 1
             //self.timeLeft += 10
         } else {
             //animateButton(button: sender, withColor: .red)
-            animateAnswer(points: -5, fromButton: sender)
+            animateAnswer(points: minusPoints, fromButton: sender)
             //self.timeLeft -= 5
             for button in answerButtons{
                 if button.titleLabel?.text == self.question?.correct_answer.htmlDecoded(){
