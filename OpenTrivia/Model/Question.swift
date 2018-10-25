@@ -9,7 +9,7 @@
 import Foundation
 
 enum Difficulty:String, Decodable{
-    case easy, medium, hard //, mixed
+    case easy, medium, hard
 }
 
 enum QuestionType:String, Decodable{

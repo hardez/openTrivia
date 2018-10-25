@@ -18,7 +18,6 @@ class FinishViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.scoreLabel.text = "Final Score: \(score)"
-        // Do any additional setup after loading the view.
         if savedCategories.count <= 1{
             newGameButton.isHidden = true
             let urlString = "https://opentdb.com/api_category.php"
@@ -30,9 +29,7 @@ class FinishViewController: UIViewController {
                 }
                 
                 guard let data = data else { return }
-                //Implement JSON decoding and parsing
                 do {
-                    //Decode retrived data with JSONDecoder and assing type of Article object
                     let resp = try JSONDecoder().decode(TriviaCategories.self, from: data)
                     
                     for categorie in resp.trivia_categories{
@@ -64,14 +61,5 @@ class FinishViewController: UIViewController {
             destVC.categories = savedCategories
         }
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

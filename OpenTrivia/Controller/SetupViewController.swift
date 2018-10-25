@@ -36,9 +36,7 @@ class SetupViewController: UIViewController {
                 }
                 
                 guard let data = data else { return }
-                //Implement JSON decoding and parsing
                 do {
-                    //Decode retrived data with JSONDecoder and assing type of Article object
                     let resp = try JSONDecoder().decode(TriviaCategories.self, from: data)
                     
                     for categorie in resp.trivia_categories{
@@ -75,9 +73,7 @@ class SetupViewController: UIViewController {
                     }
                     
                     guard let data = data else { return }
-                    //Implement JSON decoding and parsing
                     do {
-                        //Decode retrived data with JSONDecoder and assing type of Article object
                         let resp = try JSONDecoder().decode(TokenResponse.self, from: data)
                         
                         if resp.response_code == 0{
