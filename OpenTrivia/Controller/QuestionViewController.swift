@@ -25,7 +25,6 @@ class QuestionViewController: UIViewController {
     var timerPointsLabelBottomConstraint: NSLayoutConstraint!
     
     lazy var answerButtons: [UIButton] = [button1, button2, button3, button4]
-//    var theAnswer: String?
     var token: String?
     var currentDifficulty = [Difficulty.easy, Difficulty.medium, Difficulty.hard]
     var questionType = [QuestionType.boolean, QuestionType.multiple]
@@ -37,7 +36,6 @@ class QuestionViewController: UIViewController {
             self.scoreLabel.setNeedsDisplay()
         }
     }
-    //var timer = Timer()
     var timer = Timer()
     var timerIsRunning = false
     var timeLeft: Float = 60 {
@@ -60,12 +58,10 @@ class QuestionViewController: UIViewController {
         timerPointsLabel.textColor = withColor
         timerPointsLabel.textAlignment = .center
         timerPointsLabel.font = timerPointsLabel.font.withSize(5)
-        //timerPointsLabel.backgroundColor = .red
         self.view.addSubview(timerPointsLabel)
         timerPointsLabel.translatesAutoresizingMaskIntoConstraints = false
         timerPointsLabel.widthAnchor.constraint(equalToConstant: 100)
         timerPointsLabel.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor).isActive = true
-        //timerPointsLabel.bottomAnchor.constraint(equalTo: timeLabel.bottomAnchor, constant: 250).isActive = true
         timerPointsLabelBottomConstraint = timerPointsLabel.bottomAnchor.constraint(equalTo: timeLabel.bottomAnchor, constant: 250)
         timerPointsLabelBottomConstraint.isActive = true
         
@@ -111,14 +107,9 @@ class QuestionViewController: UIViewController {
         
         
         if answerTapped == self.question?.correct_answer.htmlDecoded() {
-            //animateButton(button: sender, withColor: .green)
             animateAnswer(points: plusPoints, fromButton: sender)
-            //self.correctAnswers += 1
-            //self.timeLeft += 10
         } else {
-            //animateButton(button: sender, withColor: .red)
             animateAnswer(points: minusPoints, fromButton: sender)
-            //self.timeLeft -= 5
             for button in answerButtons{
                 if button.titleLabel?.text == self.question?.correct_answer.htmlDecoded(){
                     animateButton(button: button, withColor: .green)
@@ -158,7 +149,6 @@ class QuestionViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
         setupQuestionView()
         self.timer = Timer(timeInterval: 0.1, target: self, selector: #selector(fireTimer), userInfo: nil, repeats: true)
         RunLoop.current.add(self.timer, forMode: .common)
