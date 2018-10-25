@@ -22,7 +22,7 @@ class QuestionViewController: UIViewController {
     @IBOutlet weak var button4: UIButton!
     
     let timerPointsLabel = UILabel()
-    
+    var timerPointsLabelBottomConstraint: NSLayoutConstraint!
     
     lazy var answerButtons: [UIButton] = [button1, button2, button3, button4]
 //    var theAnswer: String?
@@ -65,22 +65,25 @@ class QuestionViewController: UIViewController {
         timerPointsLabel.translatesAutoresizingMaskIntoConstraints = false
         timerPointsLabel.widthAnchor.constraint(equalToConstant: 100)
         timerPointsLabel.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor).isActive = true
-        timerPointsLabel.bottomAnchor.constraint(equalTo: timeLabel.bottomAnchor, constant: 250).isActive = true
+        //timerPointsLabel.bottomAnchor.constraint(equalTo: timeLabel.bottomAnchor, constant: 250).isActive = true
+        timerPointsLabelBottomConstraint = timerPointsLabel.bottomAnchor.constraint(equalTo: timeLabel.bottomAnchor, constant: 250)
+        timerPointsLabelBottomConstraint.isActive = true
+        
         self.view.layoutIfNeeded()
-        animate(label: timerPointsLabel, button: fromButton, withColor: withColor)
+        animate(button: fromButton, withColor: withColor)
         self.timeLeft += points
         
     }
     
-    func animate(label: UILabel, button: UIButton, withColor: UIColor){
+    func animate(button: UIButton, withColor: UIColor){
+        timerPointsLabelBottomConstraint.constant = 40
         UIView.animate(withDuration: 0.5) {
-            label.bottomAnchor.constraint(equalTo: self.timeLabel.bottomAnchor, constant: 40).isActive = true
-            label.font = label.font.withSize(40)
+            self.timerPointsLabel.font = self.timerPointsLabel.font.withSize(40)
             button.backgroundColor = withColor
             self.view.layoutIfNeeded()
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.7, execute: {
-            label.removeFromSuperview()
+            self.timerPointsLabel.removeFromSuperview()
         })
     }
     
