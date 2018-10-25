@@ -21,6 +21,9 @@ class QuestionViewController: UIViewController {
     @IBOutlet weak var button3: UIButton!
     @IBOutlet weak var button4: UIButton!
     
+    let timerPointsLabel = UILabel()
+    
+    
     lazy var answerButtons: [UIButton] = [button1, button2, button3, button4]
 //    var theAnswer: String?
     var token: String?
@@ -37,11 +40,48 @@ class QuestionViewController: UIViewController {
     //var timer = Timer()
     var timer = Timer()
     var timerIsRunning = false
-    var timeLeft: Float = 20 {
+    var timeLeft: Float = 45 {
         didSet{
             self.timeLabel.text = "\(Int(self.timeLeft))s"
             self.timeLabel.setNeedsDisplay()
         }
+    }
+    
+    func animateAnswer(points: Float, fromButton: UIButton){
+        var withColor: UIColor
+        if points > 0{
+            withColor = .green
+            self.correctAnswers += 1
+            timerPointsLabel.text = "+\(Int(points))"
+        } else {
+            withColor = .red
+            timerPointsLabel.text = "\(Int(points))"
+        }
+        timerPointsLabel.textColor = withColor
+        timerPointsLabel.textAlignment = .center
+        timerPointsLabel.font = timerPointsLabel.font.withSize(5)
+        //timerPointsLabel.backgroundColor = .red
+        self.view.addSubview(timerPointsLabel)
+        timerPointsLabel.translatesAutoresizingMaskIntoConstraints = false
+        timerPointsLabel.widthAnchor.constraint(equalToConstant: 100)
+        timerPointsLabel.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor).isActive = true
+        timerPointsLabel.bottomAnchor.constraint(equalTo: timeLabel.bottomAnchor, constant: 250).isActive = true
+        self.view.layoutIfNeeded()
+        animate(label: timerPointsLabel, button: fromButton, withColor: withColor)
+        self.timeLeft += points
+        
+    }
+    
+    func animate(label: UILabel, button: UIButton, withColor: UIColor){
+        UIView.animate(withDuration: 0.5) {
+            label.bottomAnchor.constraint(equalTo: self.timeLabel.bottomAnchor, constant: 40).isActive = true
+            label.font = label.font.withSize(40)
+            button.backgroundColor = withColor
+            self.view.layoutIfNeeded()
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7, execute: {
+            label.removeFromSuperview()
+        })
     }
     
     @IBAction func answerButtonTapped(_ sender: UIButton) {
@@ -50,12 +90,14 @@ class QuestionViewController: UIViewController {
         }
         let answerTapped = sender.titleLabel?.text
         if answerTapped == self.question?.correct_answer.htmlDecoded() {
-            animateButton(button: sender, withColor: .green)
-            self.correctAnswers += 1
-            self.timeLeft += 10
+            //animateButton(button: sender, withColor: .green)
+            animateAnswer(points: 10, fromButton: sender)
+            //self.correctAnswers += 1
+            //self.timeLeft += 10
         } else {
-            animateButton(button: sender, withColor: .red)
-            self.timeLeft -= 5
+            //animateButton(button: sender, withColor: .red)
+            animateAnswer(points: -5, fromButton: sender)
+            //self.timeLeft -= 5
             for button in answerButtons{
                 if button.titleLabel?.text == self.question?.correct_answer.htmlDecoded(){
                     animateButton(button: button, withColor: .green)
@@ -63,14 +105,14 @@ class QuestionViewController: UIViewController {
             }
         }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1), execute: {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7, execute: {
             self.setupQuestionView()
         })
         
     }
     
     func animateButton(button: UIButton, withColor: UIColor){
-        UIView.animate(withDuration: 0.7) {
+        UIView.animate(withDuration: 0.5) {
             button.backgroundColor = withColor
         }
     }
@@ -133,7 +175,7 @@ class QuestionViewController: UIViewController {
                             
                             var answers = question.getAnswers().shuffled()
                             for button in self.answerButtons{
-                                button.backgroundColor = .brown
+                                button.backgroundColor = .blue
                                 if question.type == .boolean && (button.tag == 1 || button.tag == 4){
                                     button.isHidden = true
                                 } else {
